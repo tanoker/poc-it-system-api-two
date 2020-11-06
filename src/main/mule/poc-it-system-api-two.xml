@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1bc565ae-9a3a-48f2-96f4-72053bf0c942" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="poc-it-system-api-two-accounts" doc:id="9eeab76f-ef09-41c9-8d1c-ab56e7a8bb5a" >
+		<http:listener doc:name="Listener" doc:id="73f763eb-5d73-4d81-9dea-7c0c06346f04" config-ref="HTTP_Listener_config" path="/accounts"/>
+		<set-payload value='#[%dw 2.0
+output application/json
+---
+[{
+	"message": "success"
+},
+	{
+	"message": "success"
+},
+	{
+	"message": "success"
+},
+	{
+	"message": "success"
+},
+	{
+	"message": "success"
+},
+	{
+	"message": "success"
+}]]' doc:name="Set Payload" doc:id="fea1714f-ec7e-4180-88ec-021833ff5545" />
+	</flow>
+	<flow name="poc-it-system-api-two-users" doc:id="86af591e-993a-4be5-8a0a-4dc76066f289" >
+		<http:listener doc:name="Listener" doc:id="31d81324-4c44-42e6-878e-e3319690a4a0" config-ref="HTTP_Listener_config" path="/users"/>
+		<set-payload value="#[%dw 2.0
+output application/json
+---
+{
+	count: 6
+}]" doc:name="Set Payload" doc:id="20b54b66-f939-4d55-9f95-5d89a5dbff93" />
+	</flow>
+</mule>
